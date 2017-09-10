@@ -1,29 +1,41 @@
-// EXPORTED BY THE PACKAGE. NOT THE USERS'!!
+// EXPORTED BY THE PACKAGE. DOES NOT BELONG TO USER!!
 
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
+import TextField from './TextField'
 import axios from 'axios'
 
+import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap'
+
 const renderField = (field) => {
+  console.log(field)
   // implements redux form for registration
-  if (field.meta.touched && field.meta.error) {
-    const style = {
-      color: 'red',
-      fontWeight: 'bold',
-    };
+  
+  // TODO: render
+
+  if (field.type == 'string') {
     return (
-        <div>
-          <input className="form-control" {...field.input}/>
-          <div style={style} className="error">{field.meta.error}</div>
-        </div>
-    );
+      <TextField
+        id={field.input.name}
+        label={field.input.name}
+        type={field.input.name.toLowerCase() == 'password' ? 'password' : 'text'}
+        validationState={field.meta.valid ? 'success' : 'error'}
+        {...field.input}
+      >
+      </TextField>
+    )
+  
   } else {
     return (
-      <div>
-        <input className="form-control" {...field.input}/>
-      </div>
-    );
+      <FormGroup>
+        <ControlLabel>{field.input.name}</ControlLabel>
+        <FormControl.Static>
+          {field.type} is not implemented
+        </FormControl.Static>
+      </FormGroup>
+    )
   }
+
 };
 
 class Form extends Component {
@@ -31,7 +43,7 @@ class Form extends Component {
   constructor() {
     super();
     this.render = this.render.bind(this);
-    console.log("setting state")
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.state = {modelData: []}
 
   }
@@ -39,10 +51,10 @@ class Form extends Component {
    * fetch data on the model and set to state
   */
   componentDidMount() {
+    let _this = this;
     axios.get(`/model/${this.props.for}`)
          .then(function (response) {
-            console.log(response)
-            this.setState({modelData: response.data})
+            _this.setState({modelData: response.data.fields})
          })
          .catch(function (error) {
             // render a form-wide error
@@ -57,19 +69,22 @@ class Form extends Component {
   */
   eachField(field, i) {
     return (
-      <Field
-        name={field.col_name}
-        className="form-control"
-        component={renderField}
-        type="text"
-      />
+
+      <div key={i}>
+        <Field
+          name={field.col_name}
+
+          className="form-control"
+          component={renderField}
+          type={field.type}
+          
+        />
+      </div>
     )
   }
 
   render() {
     const {handleSubmit} = this.props;
-    console.log("render")
-    console.log(this.state)
   
     if (this.state.modelData) {
       return (
@@ -77,61 +92,12 @@ class Form extends Component {
           <form onSubmit={handleSubmit(this.props.onSubmit)}>
             {this.state.modelData.map(this.eachField)}
             <button type="submit" className="btn btn-primary">Login</button>
-            }
           </form>
         </div>
       )
     } else {
       return <div></div>
     }
-    // return (
-    //   <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-    //   {this.renderAlert()}
-    //   <div className="row">
-    //     <div className="col-md-6">
-    //       <label>First Name</label>
-    //       <Field
-    //         name="firstName"
-    //         className="form-control"
-    //         component={renderField}
-    //         type="text"
-    //       />
-    //     </div>
-    //     <div className="col-md-6">
-    //       <label>Last Name</label>
-    //       <Field
-    //         name="lastName"
-    //         className="form-control"
-    //         component={renderField}
-    //         type="text"
-    //       />
-    //     </div>
-    //   </div>
-    //     <div className="row">
-    //       <div className="col-md-12">
-    //         <label>Email</label>
-    //         <Field
-    //           name="email"
-    //           className="form-control"
-    //           component={renderField}
-    //           type="text"
-    //         />
-    //       </div>
-    //     </div>
-    //     <div className="row">
-    //       <div className="col-md-12">
-    //         <label>Password</label>
-    //         <Field
-    //           name="password"
-    //           className="form-control"
-    //           component={renderField}
-    //           type="password"
-    //         />
-    //       </div>
-    //     </div>
-    //     <button type="submit" className="btn btn-primary">Register</button>
-    //   </form>
-    // );
   }
 }
 

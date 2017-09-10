@@ -12,11 +12,13 @@
 
 class User < ApplicationRecord
 
-  validates :first_name,
-            presence: true#{ message: 'you need to give us a name!' }
+  validates_presence_of :first_name, :last_name
 
-  validates :last_name,
-            presence: { message: 'you need to give us a last name!' }
+  # validates :first_name,
+  #           presence: true
+
+  # validates :last_name,
+  #           presence: { message: 'you need to give us a last name!' }
 
   validates :email,
             presence: {message: 'please provide an email'}

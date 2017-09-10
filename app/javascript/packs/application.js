@@ -19,13 +19,13 @@ import Hello from './hello_react'
 // middle ware to log changes to state
 const consoleMessages = store => next => action => {
 
-  let result
+  // let result
 
-  console.groupCollapsed(`dispatching action => ${action.type}`)
-  result = next(action)
-  console.log(store.getState())
-  console.groupEnd()
-  return result
+  // console.groupCollapsed(`dispatching action => ${action.type}`)
+  // result = next(action)
+  // console.log(store.getState())
+  // console.groupEnd()
+  // return result
 
 }
 const saveState = () =>
