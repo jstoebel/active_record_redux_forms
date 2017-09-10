@@ -7,20 +7,36 @@ import axios from 'axios'
 
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap'
 
-const renderField = (field) => {
-  console.log(field)
-  // implements redux form for registration
-  
-  // TODO: render
+const required = value => (value ? undefined : 'Required')
 
-  if (field.type == 'string') {
+const getValidationState = (meta) => {
+  if (meta.touched) {
+    if (meta.error) {
+      return 'error'
+    } else if (meta.warning) {
+      return 'warning'
+    }
+  } else {
+    return'success'
+  }
+}
+
+const renderField = ({id, 
+               label, 
+               help, 
+               type,
+               input,
+               meta,
+               ...props }) => {
+
+  if (type == 'string') {
     return (
       <TextField
-        id={field.input.name}
-        label={field.input.name}
-        type={field.input.name.toLowerCase() == 'password' ? 'password' : 'text'}
-        validationState={field.meta.valid ? 'success' : 'error'}
-        {...field.input}
+        id={input.name}
+        label={input.name}
+        type={input.name.toLowerCase() == 'password' ? 'password' : 'text'}
+        validationState={getValidationState(meta)}
+        {...input}
       >
       </TextField>
     )
@@ -28,9 +44,9 @@ const renderField = (field) => {
   } else {
     return (
       <FormGroup>
-        <ControlLabel>{field.input.name}</ControlLabel>
+        <ControlLabel>{input.name}</ControlLabel>
         <FormControl.Static>
-          {field.type} is not implemented
+          {type} is not implemented
         </FormControl.Static>
       </FormGroup>
     )
@@ -54,7 +70,8 @@ class Form extends Component {
     let _this = this;
     axios.get(`/model/${this.props.for}`)
          .then(function (response) {
-            _this.setState({modelData: response.data.fields})
+            // console.log(response.data.data)
+            _this.setState({modelData: response.data.data})
          })
          .catch(function (error) {
             // render a form-wide error
@@ -68,6 +85,7 @@ class Form extends Component {
    *
   */
   eachField(field, i) {
+    console.log(field)
     return (
 
       <div key={i}>
@@ -77,7 +95,8 @@ class Form extends Component {
           className="form-control"
           component={renderField}
           type={field.type}
-          
+          validate={required}
+          validators={field.validators}
         />
       </div>
     )
@@ -85,7 +104,6 @@ class Form extends Component {
 
   render() {
     const {handleSubmit} = this.props;
-  
     if (this.state.modelData) {
       return (
         <div>
