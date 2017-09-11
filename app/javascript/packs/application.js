@@ -19,25 +19,27 @@ import Hello from './hello_react'
 // middle ware to log changes to state
 const consoleMessages = store => next => action => {
 
-  // let result
+  let result
 
-  // console.groupCollapsed(`dispatching action => ${action.type}`)
-  // result = next(action)
-  // console.log(store.getState())
-  // console.groupEnd()
-  // return result
-
+  console.groupCollapsed(`dispatching action => ${action.type}`)
+  result = next(action)
+  console.log(store.getState())
+  console.groupEnd()
+  return result
 }
 const saveState = () =>
     localStorage['redux-store'] = JSON.stringify(store.getState());
 
 // pulls local storage if it exists, otherwise set up fresh state
-const initialState = (localStorage['redux-store']) ?
-    JSON.parse(localStorage['redux-store']) :
-    {};
+// const initialState = (localStorage['redux-store']) ?
+//     JSON.parse(localStorage['redux-store']) :
+//     {};
+
+const initialState = {}; // for now, clear out localstorage at each reload
 
 const createStoreWithMiddleware = applyMiddleware(consoleMessages)(createStore);
-const store = createStoreWithMiddleware(reducers, initialState);
+
+const store = createStore(reducers, initialState);
 store.subscribe(saveState);
 
 const mySubmit = (formProps) => {

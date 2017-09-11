@@ -7,19 +7,7 @@ import axios from 'axios'
 
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap'
 
-const required = value => (value ? undefined : 'Required')
-
-const getValidationState = (meta) => {
-  if (meta.touched) {
-    if (meta.error) {
-      return 'error'
-    } else if (meta.warning) {
-      return 'warning'
-    }
-  } else {
-    return'success'
-  }
-}
+import validators from '../validators'
 
 const renderField = ({id, 
                label, 
@@ -35,7 +23,7 @@ const renderField = ({id,
         id={input.name}
         label={input.name}
         type={input.name.toLowerCase() == 'password' ? 'password' : 'text'}
-        validationState={getValidationState(meta)}
+        meta={meta}
         {...input}
       >
       </TextField>
@@ -85,7 +73,6 @@ class Form extends Component {
    *
   */
   eachField(field, i) {
-    console.log(field)
     return (
 
       <div key={i}>
@@ -95,14 +82,15 @@ class Form extends Component {
           className="form-control"
           component={renderField}
           type={field.type}
-          validate={required}
-          validators={field.validators}
+          spam="eggs"
+          validate={validators.presence()}
         />
       </div>
     )
   }
 
   render() {
+    console.log("render the form")
     const {handleSubmit} = this.props;
     if (this.state.modelData) {
       return (

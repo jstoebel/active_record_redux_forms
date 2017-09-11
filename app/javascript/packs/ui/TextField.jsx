@@ -1,21 +1,21 @@
 import React from 'react';
 
 import {FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap'
+import {getValidationState} from '../helpers'
 
 const TextField = ({ 
                     id, 
                     label, 
-                    help, 
-                    validationState,
+                    help,
                     meta,
                     ...props }) => {
 
-  console.log("hello from TextField")
-  console.log(meta)
+  console.log(`validationState: ${getValidationState(meta)}`)
+
   return (
     <FormGroup 
         controlId={id}
-        validationState={validationState}
+        validationState={getValidationState(meta)}
     >
       <ControlLabel>{label}</ControlLabel>
       <FormControl {...props} />
