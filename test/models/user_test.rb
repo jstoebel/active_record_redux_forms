@@ -6,6 +6,8 @@
 #  first_name :string
 #  last_name  :string
 #  email      :string
+#  admin      :boolean
+#  bio        :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

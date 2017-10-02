@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^3.0.1",
+    "active-record-forms": "file:///Users/stoebelj/Sites/ar_forms_packages/js/active-record-forms",
     "axios": "^0.16.2",
     "babel-preset-react": "^6.24.1",
     "prop-types": "^15.5.10",
@@ -15,6 +16,9 @@
     "webpacker-react": "^0.3.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.54.1",
     "webpack-dev-server": "^2.7.1"
   }
 }

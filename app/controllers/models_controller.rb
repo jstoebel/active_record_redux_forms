@@ -37,24 +37,6 @@ class ModelsController < ApplicationController
                                         }
                                    }
 
-
-    
-    # model.validators.each do |validator|
-    #   # capture the type of validator
-    #   re = /ActiveRecord::Validations::(?<validator>.+)Validator/
-    #   validator = re.match(
-    #                         User
-    #                           .validator
-    #                           .class
-    #                           .to_s
-    #               )['validator']
-    #               .downcase
-    #   # assign this validation to the column
-    #   validator.attributes.each do |attr|
-
-    #   end
-    # end
-
     render json: {data: column_data}
   end
 

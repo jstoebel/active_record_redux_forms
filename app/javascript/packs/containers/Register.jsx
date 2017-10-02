@@ -1,11 +1,11 @@
 // this container is user specific!
 
 import {connect} from 'react-redux';
-import Form from '../ui/Form';
+import Form from 'active-record-forms';
 import {reduxForm} from 'redux-form';
 
 const registerContainer = reduxForm({
-  form: 'myForm',
+  form: 'userForm'
 })(Form);
 
 function mapStateToProps(state) {

@@ -6,13 +6,13 @@
 #  first_name :string
 #  last_name  :string
 #  email      :string
+#  admin      :boolean
+#  bio        :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
 class User < ApplicationRecord
-
-  validates_presence_of :first_name, :last_name
 
   validates :first_name,
             presence: true
@@ -22,5 +22,8 @@ class User < ApplicationRecord
 
   validates :email,
             presence: {message: 'please provide an email'}
+
+  validates :bio,
+            presence: true
 
 end

@@ -39,6 +39,7 @@ const initialState = {}; // for now, clear out localstorage at each reload
 
 const createStoreWithMiddleware = applyMiddleware(consoleMessages)(createStore);
 
+// const store = createStoreWithMiddleware(reducers, initialState)
 const store = createStore(reducers, initialState);
 store.subscribe(saveState);
 
